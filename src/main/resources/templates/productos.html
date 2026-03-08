@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+
+<head>
+  <title>Catálogo</title>
+</head>
+
+<body>
+
+<section>
+
+  <div class="mb-4">
+    <h1 class="page-title">Catálogo de repuestos</h1>
+    <p class="page-subtitle">Buscá por nombre o filtrá por marca y tipo.</p>
+  </div>
+
+  <form class="filter-bar row g-2 align-items-end mb-4" th:action="@{/productos}" method="get">
+    <div class="col-md-5">
+      <label class="form-label">Buscar por nombre</label>
+      <input class="form-control" type="text" name="q"
+             placeholder="Ej: pastillas de freno..."
+             th:value="${q}">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Marca</label>
+      <select class="form-select" name="marca">
+        <option value="">Todas</option>
+        <option th:each="m : ${marcas}"
+                th:value="${m.nombre}"
+                th:text="${m.nombre}"
+                th:selected="${marca == m.nombre}">
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Tipo</label>
+      <select class="form-select" name="tipo">
+        <option value="">Todos</option>
+        <option th:each="t : ${tipos}"
+                th:value="${t.nombre}"
+                th:text="${t.nombre}"
+                th:selected="${tipo == t.nombre}">
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-1 d-grid">
+      <button class="btn btn-brand">Filtrar</button>
+    </div>
+  </form>
+
+  <div class="row g-3">
+    <div class="col-md-4" th:each="p : ${lista}">
+      <div class="product-card">
+
+        <img class="product-img"
+             th:src="${p.rutaImagen} ?: 'https://via.placeholder.com/600x400?text=Producto'"
+             alt="Producto">
+
+        <div class="product-body">
+
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <h5 class="product-name" th:text="${p.nombre}">Nombre</h5>
+
+            <span th:if="${p.stock > 0}" class="badge-stock">
+              Stock: <span th:text="${p.stock}"></span>
+            </span>
+
+            <span th:if="${p.stock == 0}" class="badge-out">
+              Sin stock
+            </span>
+          </div>
+
+          <p class="product-muted mb-2">
+            <span th:text="${p.marca.nombre}">Marca</span> ·
+            <span th:text="${p.tipo.nombre}">Tipo</span>
+          </p>
+
+          <p class="product-muted mb-3"
+             th:text="${p.compatibilidad} ?: 'Compatibilidad no indicada'">
+          </p>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="price">
+              ₡<span th:text="${p.precio}">0</span>
+            </div>
+
+            <div class="d-flex gap-2">
+              <a class="btn btn-soft btn-sm"
+                 th:href="@{/producto/{id}(id=${p.idProducto})}">
+                Ver
+              </a>
+
+              <form th:action="@{/carrito/agregar}" method="post">
+                <input type="hidden" name="idProducto" th:value="${p.idProducto}">
+                <button class="btn btn-brand btn-sm"
+                        th:disabled="${p.stock == 0}">
+                  Agregar
+                </button>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</body>
+</html>
