@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Detalle del pedido</title>
+        <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    </head>
+
+    <body>
+
+        <div class="page-wrap">
+            <div class="detalle-pedido">
+
+                <h2>Detalle del pedido</h2>
+
+                <p><strong>ID:</strong> <span th:text="${pedido.idPedido}"></span></p>
+
+                <p>
+                    <strong>Fecha:</strong>
+                    <span th:text="${#temporals.format(pedido.fecha, 'dd/MM/yyyy')}"></span>
+                </p>
+
+                <p><strong>Estado:</strong> <span th:text="${pedido.estado}"></span></p>
+
+                <p>
+                    <strong>Total:</strong>
+                    ₡<span th:text="${#numbers.formatDecimal(pedido.total,0,'COMMA',0,'POINT')}"></span>
+                </p>
+
+                <h3>Productos del pedido</h3>
+
+                <table th:if="${!#lists.isEmpty(items)}">
+
+                    <thead>
+                        <tr>
+                            <th>ID Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr th:each="item : ${items}">
+
+                            <td th:text="${item.idProducto}"></td>
+
+                            <td th:text="${item.cantidad}"></td>
+
+                            <td>
+                                ₡<span th:text="${#numbers.formatDecimal(item.precioUnitario,0,'COMMA',0,'POINT')}"></span>
+                            </td>
+
+                            <td>
+                                ₡<span th:text="${#numbers.formatDecimal(item.precioUnitario * item.cantidad,0,'COMMA',0,'POINT')}"></span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <p th:if="${#lists.isEmpty(items)}" class="vacio">
+                    Este pedido no tiene productos.
+                </p>
+
+                <a th:href="@{/mis-pedidos}" class="volver">Volver al historial</a>
+
+            </div>
+        </div>
+
+    </body>
+</html>

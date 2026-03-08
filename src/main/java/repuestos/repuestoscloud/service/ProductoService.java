@@ -8,19 +8,25 @@ import java.util.List;
 
 @Service
 public class ProductoService {
-  private final ProductoRepository repo;
-  public ProductoService(ProductoRepository repo) { this.repo = repo; }
 
-  public List<Producto> listar(String q, String marca, String tipo) {
-    String qq = (q == null || q.isBlank()) ? null : q.trim();
-    String mm = (marca == null || marca.isBlank()) ? null : marca.trim();
-    String tt = (tipo == null || tipo.isBlank()) ? null : tipo.trim();
-    return repo.buscarFiltrar(qq, mm, tt);
-  }
+    private final ProductoRepository repo;
 
-  public Producto porId(Long id) {
-    return repo.findById(id).orElseThrow();
-  }
+    public ProductoService(ProductoRepository repo) {
+        this.repo = repo;
+    }
 
-  public Producto guardar(Producto p) { return repo.save(p); }
+    public List<Producto> listar(String q, String marca, String tipo) {
+        String qq = (q == null || q.isBlank()) ? null : q.trim();
+        String mm = (marca == null || marca.isBlank()) ? null : marca.trim();
+        String tt = (tipo == null || tipo.isBlank()) ? null : tipo.trim();
+        return repo.buscarFiltrar(qq, mm, tt);
+    }
+
+    public Producto porId(Long id) {
+        return repo.findById(id).orElseThrow();
+    }
+
+    public Producto guardar(Producto p) {
+        return repo.save(p);
+    }
 }

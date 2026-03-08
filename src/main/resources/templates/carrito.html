@@ -7,13 +7,11 @@
         <p class="page-subtitle">Modificá cantidades o realizá tu pedido.</p>
     </div>
 
-    <!-- carrito vacío -->
     <div class="table-darkish p-3" th:if="${#lists.isEmpty(items)}">
         <p class="m-0">Tu carrito está vacío.</p>
         <a class="btn btn-soft mt-3" th:href="@{/productos}">Ir al catálogo</a>
     </div>
 
-    <!-- carrito con productos -->
     <div th:if="${!#lists.isEmpty(items)}">
 
         <div class="table-darkish">

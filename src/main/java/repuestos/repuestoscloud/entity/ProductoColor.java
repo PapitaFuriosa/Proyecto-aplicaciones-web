@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="producto_color")
+@Table(name = "producto_color")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,15 +17,15 @@ public class ProductoColor {
     private Long idColor;
 
     @ManyToOne
-    @JoinColumn(name="id_producto")
+    @JoinColumn(name = "id_producto")
     private Producto producto;
 
     private String nombre;
 
-    @Column(name="codigo_hex")
+    @Column(name = "codigo_hex")
     private String codigoHex;
 
-    @Column(name="imagen_url")
+    @Column(name = "imagen_url")
     private String imagenUrl;
 
     private Boolean activo;

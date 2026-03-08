@@ -27,14 +27,28 @@ public class PedidoService {
     private final CarritoItemRepository carritoItemRepo;
     private final ProductoRepository productoRepo;
 
-    public PedidoService(PedidoRepository pr, PedidoItemRepository pir,
-            CarritoRepository cr, CarritoItemRepository cir,
-            ProductoRepository prod) {
-        this.pedidoRepo = pr;
-        this.pedidoItemRepo = pir;
-        this.carritoRepo = cr;
-        this.carritoItemRepo = cir;
-        this.productoRepo = prod;
+    public PedidoService(PedidoRepository pedidoRepo,
+            PedidoItemRepository pedidoItemRepo,
+            CarritoRepository carritoRepo,
+            CarritoItemRepository carritoItemRepo,
+            ProductoRepository productoRepo) {
+        this.pedidoRepo = pedidoRepo;
+        this.pedidoItemRepo = pedidoItemRepo;
+        this.carritoRepo = carritoRepo;
+        this.carritoItemRepo = carritoItemRepo;
+        this.productoRepo = productoRepo;
+    }
+
+    public List<Pedido> listarPorUsuario(Usuario usuario) {
+        return pedidoRepo.findByUsuarioOrderByFechaDesc(usuario);
+    }
+
+    public Pedido obtenerPorId(Long id) {
+        return pedidoRepo.findById(id).orElse(null);
+    }
+
+    public List<Pedido> obtenerPedidosPorUsuario(Long idUsuario) {
+        return pedidoRepo.findByUsuarioIdUsuarioOrderByFechaDesc(idUsuario);
     }
 
     @Transactional
@@ -45,6 +59,7 @@ public class PedidoService {
                 .orElseThrow();
 
         List<CarritoItem> items = carritoItemRepo.findByIdCarrito(carrito.getIdCarrito());
+
         if (items.isEmpty()) {
             return;
         }
@@ -66,6 +81,7 @@ public class PedidoService {
             if (p.getStock() < cant) {
                 cant = p.getStock();
             }
+
             if (cant <= 0) {
                 continue;
             }
@@ -88,9 +104,5 @@ public class PedidoService {
 
         carrito.setEstado(Carrito.EstadoCarrito.CERRADO);
         carritoRepo.save(carrito);
-    }
-
-    public List<Pedido> obtenerPedidosPorUsuario(Long idUsuario) {
-        return pedidoRepo.findByUsuarioIdUsuarioOrderByFechaDesc(idUsuario);
     }
 }

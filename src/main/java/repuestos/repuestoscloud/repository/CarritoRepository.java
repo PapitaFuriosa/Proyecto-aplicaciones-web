@@ -1,7 +1,6 @@
 package repuestos.repuestoscloud.repository;
 
 import repuestos.repuestoscloud.entity.Carrito;
-import repuestos.repuestoscloud.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

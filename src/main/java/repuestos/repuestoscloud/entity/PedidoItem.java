@@ -4,19 +4,25 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
 
-@Entity @Table(name="pedido_item")
-@Getter @Setter @NoArgsConstructor
+@Entity
+@Table(name = "pedido_item")
+@Getter
+@Setter
+@NoArgsConstructor
 @IdClass(PedidoItemId.class)
 public class PedidoItem {
-  @Id @Column(name="id_pedido")
-  private Long idPedido;
 
-  @Id @Column(name="id_producto")
-  private Long idProducto;
+    @Id
+    @Column(name = "id_pedido")
+    private Long idPedido;
 
-  @Column(name="precio_unitario", nullable=false, precision=12, scale=2)
-  private BigDecimal precioUnitario;
+    @Id
+    @Column(name = "id_producto")
+    private Long idProducto;
 
-  @Column(nullable=false)
-  private Integer cantidad;
+    @Column(name = "precio_unitario", nullable = false, precision = 12, scale = 2)
+    private BigDecimal precioUnitario;
+
+    @Column(nullable = false)
+    private Integer cantidad;
 }

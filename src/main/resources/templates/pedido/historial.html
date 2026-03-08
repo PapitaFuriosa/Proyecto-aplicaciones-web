@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Historial de pedidos</title>
+        <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    </head>
+
+    <body>
+
+        <div class="page-wrap">
+            <div class="detalle-pedido">
+
+                <h2>Historial de pedidos</h2>
+
+                <div th:if="${#lists.isEmpty(pedidos)}" class="vacio">
+                    No has realizado pedidos todavía.
+                </div>
+
+                <table th:if="${!#lists.isEmpty(pedidos)}">
+
+                    <thead>
+                        <tr>
+                            <th>ID Pedido</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Total</th>
+                            <th>Detalle</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr th:each="pedido : ${pedidos}">
+
+                            <td th:text="${pedido.idPedido}"></td>
+
+                            <td th:text="${#temporals.format(pedido.fecha, 'dd/MM/yyyy')}"></td>
+
+                            <td th:text="${pedido.estado}"></td>
+
+                            <td>
+                                ₡<span th:text="${#numbers.formatDecimal(pedido.total,0,'COMMA',0,'POINT')}"></span>
+                            </td>
+
+                            <td>
+                                <a th:href="@{/mis-pedidos/{id}(id=${pedido.idPedido})}" class="btn-soft">Ver</a>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <a th:href="@{/productos}" class="volver">Volver a productos</a>
+
+            </div>
+        </div>
+
+    </body>
+</html>

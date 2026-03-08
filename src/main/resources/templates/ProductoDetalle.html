@@ -39,8 +39,8 @@
                                 class="color-swatch"
                                 th:style="'width:26px;height:26px;border-radius:50%;border:2px solid #444;background:' + ${c.codigoHex} + ';'"
                                 th:attr="data-nombre=${c.nombre},
-                                         data-hex=${c.codigoHex},
-                                         data-img=${c.imagenUrl}"
+                                data-hex=${c.codigoHex},
+                                data-img=${c.imagenUrl}"
                                 onclick="seleccionarColor(this)">
                         </button>
 
@@ -86,42 +86,3 @@
     </div>
 </section>
 
-<script th:inline="javascript">
-    const nombreProducto = /*[[${p.nombre}]]*/ 'Producto';
-
-    function seleccionarColor(btn) {
-        const nombre = btn.getAttribute('data-nombre');
-        const hex = btn.getAttribute('data-hex');
-        const img = btn.getAttribute('data-img');
-
-        const selectedText = document.getElementById('selectedColorText');
-        const previewBox = document.getElementById('previewBox');
-        const mainImage = document.getElementById('mainProductImage');
-
-        selectedText.textContent = nombre;
-
-        previewBox.style.boxShadow = `0 0 0 3px ${hex}40 inset, 0 10px 25px ${hex}30`;
-
-        document.querySelectorAll('.color-swatch').forEach(el => {
-            el.style.transform = 'scale(1)';
-            el.style.boxShadow = 'none';
-        });
-
-        btn.style.transform = 'scale(1.12)';
-        btn.style.boxShadow = `0 0 0 3px ${hex}55`;
-
-        if (img && img.trim() !== '') {
-            mainImage.src = img;
-        } else {
-            const hexClean = hex.replace('#', '');
-            mainImage.src = `https://via.placeholder.com/420x320/${hexClean}/FFFFFF?text=${encodeURIComponent(nombreProducto + ' - ' + nombre)}`;
-        }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        const first = document.querySelector('.color-swatch');
-        if (first) {
-            seleccionarColor(first);
-        }
-    });
-</script>

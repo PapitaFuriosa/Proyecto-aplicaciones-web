@@ -22,6 +22,7 @@ public class PagoController {
     }
 
     public static class PagoForm {
+
         @NotBlank
         private String numeroTarjeta;
 

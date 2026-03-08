@@ -37,10 +37,10 @@ public class ProductoController {
     }
 
     @GetMapping({"/", "/productos"})
-    public String productos(@RequestParam(required=false) String q,
-                            @RequestParam(required=false) String marca,
-                            @RequestParam(required=false) String tipo,
-                            Model model) {
+    public String productos(@RequestParam(required = false) String q,
+            @RequestParam(required = false) String marca,
+            @RequestParam(required = false) String tipo,
+            Model model) {
 
         model.addAttribute("lista", productoService.listar(q, marca, tipo));
         model.addAttribute("marcas", marcaRepo.findAllByOrderByNombreAsc());
@@ -57,8 +57,8 @@ public class ProductoController {
 
         Producto producto = productoRepo.findById(id).orElseThrow();
 
-        List<ProductoColor> colores =
-                productoColorRepo.findByProductoIdProductoAndActivoTrue(id);
+        List<ProductoColor> colores
+                = productoColorRepo.findByProductoIdProductoAndActivoTrue(id);
 
         model.addAttribute("p", producto);
         model.addAttribute("colores", colores);

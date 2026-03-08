@@ -17,14 +17,15 @@ public class CuentaController {
     private final PasswordEncoder passwordEncoder;
 
     public CuentaController(CurrentUser currentUser,
-                            UsuarioRepository usuarioRepo,
-                            PasswordEncoder passwordEncoder) {
+            UsuarioRepository usuarioRepo,
+            PasswordEncoder passwordEncoder) {
         this.currentUser = currentUser;
         this.usuarioRepo = usuarioRepo;
         this.passwordEncoder = passwordEncoder;
     }
 
     public static class CuentaForm {
+
         private String nombreUsuario;
         private String correo;
         private String nuevaPassword;
@@ -74,7 +75,7 @@ public class CuentaController {
 
     @GetMapping("/cuenta")
     public String verCuenta(Model model,
-                            @RequestParam(value = "ok", required = false) String ok) {
+            @RequestParam(value = "ok", required = false) String ok) {
 
         Usuario u = currentUser.get();
 

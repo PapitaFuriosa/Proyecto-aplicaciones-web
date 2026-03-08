@@ -29,8 +29,7 @@ public class CarritoService {
 
     @Transactional
     public Carrito obtenerOCrearCarritoActivo(Usuario u) {
-        return carritoRepo.findByUsuarioIdUsuarioAndEstado(
-                u.getIdUsuario().longValue(),
+        return carritoRepo.findByUsuarioIdUsuarioAndEstado(u.getIdUsuario(),
                 Carrito.EstadoCarrito.ACTIVO
         ).orElseGet(() -> {
             Carrito c = new Carrito();
@@ -45,8 +44,12 @@ public class CarritoService {
         Carrito c = obtenerOCrearCarritoActivo(u);
         Producto p = productoRepo.findById(idProducto).orElseThrow();
 
-        if (!Boolean.TRUE.equals(p.getActivo())) return;
-        if (p.getStock() <= 0) return;
+        if (!Boolean.TRUE.equals(p.getActivo())) {
+            return;
+        }
+        if (p.getStock() <= 0) {
+            return;
+        }
 
         Optional<CarritoItem> existing = itemRepo.findByIdCarritoAndIdProducto(c.getIdCarrito(), idProducto);
         if (existing.isPresent()) {
@@ -89,7 +92,9 @@ public class CarritoService {
             Integer cantidad,
             BigDecimal subtotal,
             String img
-    ) {}
+            ) {
+
+    }
 
     public Map<String, Object> verCarrito(Usuario u) {
         Carrito c = carritoRepo.findByUsuarioIdUsuarioAndEstado(
@@ -107,7 +112,9 @@ public class CarritoService {
 
         for (CarritoItem it : items) {
             Producto p = productoRepo.findById(it.getIdProducto()).orElse(null);
-            if (p == null) continue;
+            if (p == null) {
+                continue;
+            }
 
             BigDecimal sub = p.getPrecio().multiply(BigDecimal.valueOf(it.getCantidad()));
             total = total.add(sub);
