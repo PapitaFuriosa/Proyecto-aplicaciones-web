@@ -11,13 +11,13 @@
         <section>
 
             <div class="mb-4">
-                <h1 class="page-title">Carrito</h1>
-                <p class="page-subtitle">Modificá cantidades o realizá tu pedido.</p>
+                <h1 class="page-title" id="tituloCarrito">Carrito</h1>
+                <p class="page-subtitle" id="subtituloCarrito">Modificá cantidades o realizá tu pedido.</p>
             </div>
 
             <div class="table-darkish p-3" th:if="${#lists.isEmpty(items)}">
-                <p class="m-0">Tu carrito está vacío.</p>
-                <a class="btn btn-soft mt-3" th:href="@{/productos}">Ir al catálogo</a>
+                <p class="m-0" id="textoCarritoVacio">Tu carrito está vacío.</p>
+                <a class="btn btn-soft mt-3" th:href="@{/productos}" id="btnIrCatalogo">Ir al catálogo</a>
             </div>
 
             <div th:if="${!#lists.isEmpty(items)}">
@@ -27,10 +27,10 @@
 
                         <thead>
                             <tr>
-                                <th>Producto</th>
-                                <th>Precio</th>
-                                <th style="width:160px">Cantidad</th>
-                                <th>Subtotal</th>
+                                <th id="thProducto">Producto</th>
+                                <th id="thPrecio">Precio</th>
+                                <th style="width:160px" id="thCantidad">Cantidad</th>
+                                <th id="thSubtotal">Subtotal</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -90,7 +90,7 @@
                                                name="idProducto"
                                                th:value="${it.idProducto}">
 
-                                        <button class="btn btn-danger-soft btn-sm" type="submit">
+                                        <button class="btn btn-danger-soft btn-sm btn-eliminar" type="submit">
                                             Eliminar
                                         </button>
 
@@ -105,7 +105,7 @@
 
                 <div class="total-box mt-3 d-flex justify-content-between align-items-center">
 
-                    <div class="fw-bold">Total:</div>
+                    <div class="fw-bold" id="textoTotal">Total:</div>
 
                     <div class="price">
                         ₡<span th:text="${total}"></span>
@@ -117,7 +117,7 @@
                       th:action="@{/pago}"
                       method="get">
 
-                    <button class="btn btn-brand w-100" type="submit">
+                    <button class="btn btn-brand w-100" type="submit" id="btnRealizarPedido">
                         Realizar pedido
                     </button>
 

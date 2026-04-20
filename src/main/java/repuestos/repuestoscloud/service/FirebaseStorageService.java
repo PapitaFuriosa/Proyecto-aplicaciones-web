@@ -1,14 +1,9 @@
 package repuestos.repuestoscloud.service;
 
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,26 +25,18 @@ public class FirebaseStorageService {
 
     private Storage storage() {
         try {
-            InputStream in;
+            String path = credentialsPath.replace("classpath:", "");
+            InputStream serviceAccount = new ClassPathResource(path).getInputStream();
 
-            if (credentialsPath.startsWith("classpath:")) {
-                String path = credentialsPath.replace("classpath:", "");
-                Resource resource = new ClassPathResource(path);
-                in = resource.getInputStream();
-            } else {
-                Resource resource = new ClassPathResource(credentialsPath);
-                in = resource.getInputStream();
-            }
-
-            GoogleCredentials creds = GoogleCredentials.fromStream(in);
+            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
 
             return StorageOptions.newBuilder()
-                    .setCredentials(creds)
+                    .setCredentials(credentials)
                     .build()
                     .getService();
 
         } catch (Exception e) {
-            throw new RuntimeException("Error conectando con Firebase Storage: " + e.getMessage(), e);
+            throw new RuntimeException("Error conectando con Firebase Storage", e);
         }
     }
 
@@ -59,16 +46,17 @@ public class FirebaseStorageService {
         }
 
         try {
-            String ext = "";
             String original = file.getOriginalFilename();
+            String ext = "";
 
             if (original != null && original.contains(".")) {
-                ext = original.substring(original.lastIndexOf('.'));
+                ext = original.substring(original.lastIndexOf("."));
             }
 
             String objectName = folder + "/" + UUID.randomUUID() + ext;
 
-            BlobInfo blobInfo = BlobInfo.newBuilder(BlobId.of(bucket, objectName))
+            BlobId blobId = BlobId.of(bucket, objectName);
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
                     .setContentType(file.getContentType())
                     .build();
 
@@ -78,7 +66,7 @@ public class FirebaseStorageService {
             return blob.signUrl(3650, TimeUnit.DAYS).toString();
 
         } catch (Exception e) {
-            throw new RuntimeException("Error subiendo imagen a Firebase Storage: " + e.getMessage(), e);
+            throw new RuntimeException("Error subiendo imagen a Firebase Storage", e);
         }
     }
 }

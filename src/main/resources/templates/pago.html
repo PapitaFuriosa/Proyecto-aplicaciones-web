@@ -11,12 +11,12 @@
         <section class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="mb-4">
-                    <h1 class="page-title">Realizar pedido</h1>
-                    <p class="page-subtitle">Selecciona tu método de pago para finalizar la compra.</p>
+                    <h1 class="page-title" id="tituloPago">Realizar pedido</h1>
+                    <p class="page-subtitle" id="subtituloPago">Selecciona tu método de pago para finalizar la compra.</p>
                 </div>
 
                 <div class="table-darkish p-4">
-                    <h4 class="mb-4">Seleccione su método de pago</h4>
+                    <h4 class="mb-4" id="tituloMetodoPago">Seleccione su método de pago</h4>
 
                     <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
 
@@ -29,7 +29,7 @@
                                        name="metodoPago"
                                        value="tarjeta"
                                        checked>
-                                Tarjeta Crédito/Débito
+                                <span id="lblMetodoTarjeta">Tarjeta Crédito/Débito</span>
                             </label>
 
                             <label>
@@ -37,7 +37,7 @@
                                        id="metodoEfectivo"
                                        name="metodoPago"
                                        value="efectivo">
-                                Efectivo
+                                <span id="lblMetodoEfectivo">Efectivo</span>
                             </label>
                         </div>
 
@@ -46,7 +46,7 @@
                                 <div class="col-md-8">
                                     <input class="form-control"
                                            type="text"
-                                           id="numeroTarjeta"
+                                           id="phNumeroTarjeta"
                                            placeholder="Número de la tarjeta"
                                            maxlength="16"
                                            th:field="*{numeroTarjeta}">
@@ -55,6 +55,7 @@
                                 <div class="col-md-4">
                                     <input class="form-control"
                                            type="text"
+                                           id="phCodigoSeguridad"
                                            placeholder="Código de seguridad"
                                            th:field="*{codigoSeguridad}">
                                 </div>
@@ -62,7 +63,7 @@
                                 <div class="col-md-6">
                                     <input class="form-control"
                                            type="text"
-                                           id="fechaVencimiento"
+                                           id="phFechaVencimiento"
                                            placeholder="dd/MM/yyyy"
                                            maxlength="10"
                                            th:field="*{fechaVencimiento}">
@@ -71,6 +72,7 @@
                                 <div class="col-md-6">
                                     <input class="form-control"
                                            type="text"
+                                           id="phNombrePropietario"
                                            placeholder="Nombre del propietario"
                                            th:field="*{nombrePropietario}">
                                 </div>
@@ -78,7 +80,7 @@
                         </div>
 
                         <div class="mt-4 d-flex justify-content-end">
-                            <button class="btn btn-brand px-5" type="submit">Finalizar</button>
+                            <button class="btn btn-brand px-5" type="submit" id="btnFinalizarPago">Finalizar</button>
                         </div>
                     </form>
                 </div>
@@ -87,8 +89,8 @@
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                     const form = document.getElementById("formPago");
-                    const numeroTarjeta = document.getElementById("numeroTarjeta");
-                    const fechaVencimiento = document.getElementById("fechaVencimiento");
+                    const numeroTarjeta = document.getElementById("phNumeroTarjeta");
+                    const fechaVencimiento = document.getElementById("phFechaVencimiento");
                     const datosTarjeta = document.getElementById("datosTarjeta");
                     const metodoTarjeta = document.getElementById("metodoTarjeta");
                     const metodoEfectivo = document.getElementById("metodoEfectivo");

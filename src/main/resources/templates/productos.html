@@ -12,20 +12,23 @@
         <section>
 
             <div class="mb-4">
-                <h1 class="page-title">Catálogo de repuestos</h1>
-                <p class="page-subtitle">Buscá por nombre o filtrá por marca y tipo.</p>
+                <h1 class="page-title" id="tituloCatalogo">Catálogo de repuestos</h1>
+                <p class="page-subtitle" id="subtituloCatalogo">
+                    Buscá por nombre o filtrá por marca y tipo.
+                </p>
             </div>
 
             <form class="filter-bar row g-2 align-items-end mb-4" th:action="@{/productos}" method="get">
+
                 <div class="col-md-5">
-                    <label class="form-label">Buscar por nombre</label>
+                    <label class="form-label" id="labelBuscar">Buscar por nombre</label>
                     <input class="form-control" type="text" name="q"
                            placeholder="Ej: pastillas de freno..."
                            th:value="${q}">
                 </div>
 
                 <div class="col-md-3">
-                    <label class="form-label">Marca</label>
+                    <label class="form-label" id="labelMarca">Marca</label>
                     <select class="form-select" name="marca">
                         <option value="">Todas</option>
                         <option th:each="m : ${marcas}"
@@ -37,7 +40,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <label class="form-label">Tipo</label>
+                    <label class="form-label" id="labelTipo">Tipo</label>
                     <select class="form-select" name="tipo">
                         <option value="">Todos</option>
                         <option th:each="t : ${tipos}"
@@ -49,8 +52,9 @@
                 </div>
 
                 <div class="col-md-1 d-grid">
-                    <button class="btn btn-brand">Filtrar</button>
+                    <button class="btn btn-brand" id="btnFiltrar" type="submit">Filtrar</button>
                 </div>
+
             </form>
 
             <div class="row g-3">
@@ -67,10 +71,10 @@
                                 <h5 class="product-name" th:text="${p.nombre}">Nombre</h5>
 
                                 <span th:if="${p.stock > 0}" class="badge-stock">
-                                    Stock: <span th:text="${p.stock}"></span>
+                                    <span class="txt-stock">Stock:</span> <span th:text="${p.stock}"></span>
                                 </span>
 
-                                <span th:if="${p.stock == 0}" class="badge-out">
+                                <span th:if="${p.stock == 0}" class="badge-out txt-sin-stock">
                                     Sin stock
                                 </span>
                             </div>
@@ -90,14 +94,14 @@
                                 </div>
 
                                 <div class="d-flex gap-2">
-                                    <a class="btn btn-soft btn-sm"
+                                    <a class="btn btn-soft btn-sm btn-ver"
                                        th:href="@{/producto/{id}(id=${p.idProducto})}">
                                         Ver
                                     </a>
 
                                     <form th:action="@{/carrito/agregar}" method="post">
                                         <input type="hidden" name="idProducto" th:value="${p.idProducto}">
-                                        <button class="btn btn-brand btn-sm"
+                                        <button class="btn btn-brand btn-sm btn-agregar"
                                                 th:disabled="${p.stock == 0}">
                                             Agregar
                                         </button>

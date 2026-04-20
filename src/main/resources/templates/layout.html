@@ -26,40 +26,44 @@
                          alt="Logo"
                          style="width:36px; height:36px; object-fit:cover; border-radius:50%;">
 
-                    <span>RepuestosCloud</span>
+                    <span id="tituloApp">RepuestosCloud</span>
                 </a>
 
                 <div class="ms-auto d-flex gap-2">
 
-                    <a class="btn btn-soft btn-sm" th:href="@{/productos}">
+                    <a class="btn btn-soft btn-sm" th:href="@{/productos}" id="navCatalogo">
                         Catálogo
                     </a>
 
                     <a class="btn btn-soft btn-sm"
                        sec:authorize="hasRole('ADMIN')"
-                       th:href="@{/admin}">
+                       th:href="@{/admin}"
+                       id="navAdmin">
                         Admin
                     </a>
 
-                    <a class="btn btn-soft btn-sm" th:href="@{/carrito}">
+                    <a class="btn btn-soft btn-sm" th:href="@{/carrito}" id="navCarrito">
                         🛒 Carrito
                     </a>
 
                     <a class="btn btn-soft btn-sm"
                        sec:authorize="isAuthenticated()"
-                       th:href="@{/mis-pedidos}">
+                       th:href="@{/pedidos}"
+                       id="navPedidos">
                         Mis pedidos
                     </a>
 
                     <a class="btn btn-soft btn-sm"
                        sec:authorize="isAuthenticated()"
-                       th:href="@{/cuenta}">
+                       th:href="@{/cuenta}"
+                       id="navCuenta">
                         Mi cuenta
                     </a>
 
                     <a class="btn btn-brand btn-sm"
                        sec:authorize="isAnonymous()"
-                       th:href="@{/login}">
+                       th:href="@{/login}"
+                       id="navEntrar">
                         Entrar
                     </a>
 
@@ -67,10 +71,14 @@
                           th:action="@{/logout}"
                           method="post"
                           class="d-inline">
-                        <button class="btn btn-danger-soft btn-sm" type="submit">
+                        <button class="btn btn-danger-soft btn-sm" type="submit" id="navSalir">
                             Salir
                         </button>
                     </form>
+
+                    <button type="button" class="btn btn-soft btn-sm" onclick="cambiarIdioma()">
+                        EN/ES
+                    </button>
 
                 </div>
             </div>
@@ -79,6 +87,270 @@
         <div class="page-wrap">
             <div class="container mt-4" th:insert="${content}"></div>
         </div>
+
+        <script>
+            let idioma = localStorage.getItem("idioma") || "es";
+
+            function aplicarIdioma() {
+                const textos = {
+                    es: {
+                        tituloApp: "RepuestosCloud",
+                        navCatalogo: "Catálogo",
+                        navAdmin: "Admin",
+                        navCarrito: "🛒 Carrito",
+                        navPedidos: "Mis pedidos",
+                        navCuenta: "Mi cuenta",
+                        navEntrar: "Entrar",
+                        navSalir: "Salir",
+
+                        tituloCatalogo: "Catálogo de repuestos",
+                        subtituloCatalogo: "Buscá por nombre o filtrá por marca y tipo.",
+                        labelBuscar: "Buscar por nombre",
+                        labelMarca: "Marca",
+                        labelTipo: "Tipo",
+                        btnFiltrar: "Filtrar",
+
+                        tituloCarrito: "Carrito",
+                        subtituloCarrito: "Modificá cantidades o realizá tu pedido.",
+                        textoCarritoVacio: "Tu carrito está vacío.",
+                        btnIrCatalogo: "Ir al catálogo",
+                        thProducto: "Producto",
+                        thPrecio: "Precio",
+                        thCantidad: "Cantidad",
+                        thSubtotal: "Subtotal",
+                        textoTotal: "Total:",
+                        btnRealizarPedido: "Realizar pedido",
+
+                        tituloPedidos: "Historial de pedidos",
+                        subtituloPedidos: "Tus compras confirmadas.",
+                        textoSinPedidos: "Aún no tenés pedidos.",
+                        thIdPedido: "ID",
+                        thFecha: "Fecha",
+                        thEstado: "Estado",
+                        thTotalPedidos: "Total",
+                        thDetalle: "Detalle",
+                        btnVolverProductos: "Volver a productos",
+
+                        tituloPago: "Realizar pedido",
+                        subtituloPago: "Selecciona tu método de pago para finalizar la compra.",
+                        tituloMetodoPago: "Seleccione su método de pago",
+                        lblMetodoTarjeta: "Tarjeta Crédito/Débito",
+                        lblMetodoEfectivo: "Efectivo",
+                        phNumeroTarjeta: "Número de la tarjeta",
+                        phCodigoSeguridad: "Código de seguridad",
+                        phFechaVencimiento: "dd/MM/yyyy",
+                        phNombrePropietario: "Nombre del propietario",
+                        btnFinalizarPago: "Finalizar",
+
+                        tituloDetalleProducto: "Detalle del producto",
+                        subtituloDetalleProducto: "Selecciona el color y revisa las características antes de comprar.",
+                        lblCompatibilidad: "Compatibilidad:",
+                        lblCompatibilidad2: "Compatibilidad:",
+                        lblColores: "Colores:",
+                        lblCaracteristicas: "Características",
+                        lblDescripcion: "Descripción:",
+                        btnAgregarCarrito: "Agregar al carrito",
+
+                        tituloCuenta: "Configuración de la cuenta",
+                        subtituloCuenta: "Actualiza tus datos principales.",
+                        lblNombre: "Nombre",
+                        lblCorreoElectronico: "Correo electrónico",
+                        lblContrasenaNueva: "Contraseña nueva",
+                        lblConfirmarContrasena: "Confirmar contraseña",
+                        lblMetodoPago: "Método de pago",
+                        optSeleccione: "Seleccione",
+                        optTarjeta: "Tarjeta Crédito/Débito",
+                        optEfectivo: "Efectivo",
+                        btnGuardarCambios: "Guardar cambios",
+
+                        tituloAdmin: "Panel Administrativo",
+                        subtituloAdmin: "Gestioná el catálogo de repuestos.",
+                        tituloCatalogoAdmin: "Catálogo de productos",
+                        descCatalogoAdmin: "Agregá, editá y desactivá productos del catálogo principal.",
+                        btnModificarCatalogo: "Modificar catálogo",
+
+                        tituloAdminProductos: "Admin · Productos",
+                        subtituloAdminProductos: "Crear, editar, desactivar y ver inventario.",
+                        btnNuevoProducto: "+ Nuevo producto",
+                        thId: "ID",
+                        thNombre: "Nombre",
+                        thMarca: "Marca",
+                        thTipo: "Tipo",
+                        thActivo: "Activo",
+                        thAcciones: "Acciones",
+                        btnVolverCatalogoAdmin: "Volver al catálogo",
+
+                        tituloProductoFormNuevo: "Nuevo producto",
+                        tituloProductoFormEditar: "Editar producto",
+                        lblNombreProducto: "Nombre",
+                        lblPrecioProducto: "Precio",
+                        lblStockProducto: "Stock",
+                        lblMarcaProducto: "Marca",
+                        lblTipoProducto: "Tipo",
+                        lblDescripcionProducto: "Descripción",
+                        lblCompatibilidadProducto: "Compatibilidad",
+                        lblImagenProducto: "Imagen",
+                        lblActivoProducto: "Activo",
+                        btnGuardarProducto: "Guardar",
+                        btnCancelarProducto: "Cancelar"
+                    },
+                    en: {
+                        tituloApp: "RepuestosCloud",
+                        navCatalogo: "Catalog",
+                        navAdmin: "Admin",
+                        navCarrito: "🛒 Cart",
+                        navPedidos: "My orders",
+                        navCuenta: "My account",
+                        navEntrar: "Login",
+                        navSalir: "Logout",
+
+                        tituloCatalogo: "Spare parts catalog",
+                        subtituloCatalogo: "Search by name or filter by brand and type.",
+                        labelBuscar: "Search by name",
+                        labelMarca: "Brand",
+                        labelTipo: "Type",
+                        btnFiltrar: "Filter",
+
+                        tituloCarrito: "Cart",
+                        subtituloCarrito: "Update quantities or place your order.",
+                        textoCarritoVacio: "Your cart is empty.",
+                        btnIrCatalogo: "Go to catalog",
+                        thProducto: "Product",
+                        thPrecio: "Price",
+                        thCantidad: "Quantity",
+                        thSubtotal: "Subtotal",
+                        textoTotal: "Total:",
+                        btnRealizarPedido: "Place order",
+
+                        tituloPedidos: "Order history",
+                        subtituloPedidos: "Your confirmed purchases.",
+                        textoSinPedidos: "You do not have any orders yet.",
+                        thIdPedido: "ID",
+                        thFecha: "Date",
+                        thEstado: "Status",
+                        thTotalPedidos: "Total",
+                        thDetalle: "Detail",
+                        btnVolverProductos: "Back to products",
+
+                        tituloPago: "Place order",
+                        subtituloPago: "Select your payment method to complete your purchase.",
+                        tituloMetodoPago: "Select your payment method",
+                        lblMetodoTarjeta: "Credit/Debit card",
+                        lblMetodoEfectivo: "Cash",
+                        phNumeroTarjeta: "Card number",
+                        phCodigoSeguridad: "Security code",
+                        phFechaVencimiento: "dd/MM/yyyy",
+                        phNombrePropietario: "Cardholder name",
+                        btnFinalizarPago: "Finish",
+
+                        tituloDetalleProducto: "Product detail",
+                        subtituloDetalleProducto: "Choose the color and review the features before buying.",
+                        lblCompatibilidad: "Compatibility:",
+                        lblCompatibilidad2: "Compatibility:",
+                        lblColores: "Colors:",
+                        lblCaracteristicas: "Features",
+                        lblDescripcion: "Description:",
+                        btnAgregarCarrito: "Add to cart",
+
+                        tituloCuenta: "Account settings",
+                        subtituloCuenta: "Update your main details.",
+                        lblNombre: "Name",
+                        lblCorreoElectronico: "Email",
+                        lblContrasenaNueva: "New password",
+                        lblConfirmarContrasena: "Confirm password",
+                        lblMetodoPago: "Payment method",
+                        optSeleccione: "Select",
+                        optTarjeta: "Credit/Debit card",
+                        optEfectivo: "Cash",
+                        btnGuardarCambios: "Save changes",
+
+                        tituloAdmin: "Admin panel",
+                        subtituloAdmin: "Manage the parts catalog.",
+                        tituloCatalogoAdmin: "Product catalog",
+                        descCatalogoAdmin: "Add, edit and deactivate products from the main catalog.",
+                        btnModificarCatalogo: "Edit catalog",
+
+                        tituloAdminProductos: "Admin · Products",
+                        subtituloAdminProductos: "Create, edit, deactivate and view inventory.",
+                        btnNuevoProducto: "+ New product",
+                        thId: "ID",
+                        thNombre: "Name",
+                        thMarca: "Brand",
+                        thTipo: "Type",
+                        thActivo: "Active",
+                        thAcciones: "Actions",
+                        btnVolverCatalogoAdmin: "Back to catalog",
+
+                        tituloProductoFormNuevo: "New product",
+                        tituloProductoFormEditar: "Edit product",
+                        lblNombreProducto: "Name",
+                        lblPrecioProducto: "Price",
+                        lblStockProducto: "Stock",
+                        lblMarcaProducto: "Brand",
+                        lblTipoProducto: "Type",
+                        lblDescripcionProducto: "Description",
+                        lblCompatibilidadProducto: "Compatibility",
+                        lblImagenProducto: "Image",
+                        lblActivoProducto: "Active",
+                        btnGuardarProducto: "Save",
+                        btnCancelarProducto: "Cancel"
+                    }
+                };
+
+                const t = textos[idioma];
+
+                for (const id in t) {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.textContent = t[id];
+                    }
+                }
+
+                const phNumeroTarjeta = document.getElementById("phNumeroTarjeta");
+                if (phNumeroTarjeta)
+                    phNumeroTarjeta.placeholder = t.phNumeroTarjeta;
+
+                const phCodigoSeguridad = document.getElementById("phCodigoSeguridad");
+                if (phCodigoSeguridad)
+                    phCodigoSeguridad.placeholder = t.phCodigoSeguridad;
+
+                const phFechaVencimiento = document.getElementById("phFechaVencimiento");
+                if (phFechaVencimiento)
+                    phFechaVencimiento.placeholder = t.phFechaVencimiento;
+
+                const phNombrePropietario = document.getElementById("phNombrePropietario");
+                if (phNombrePropietario)
+                    phNombrePropietario.placeholder = t.phNombrePropietario;
+
+                document.querySelectorAll(".btn-ver").forEach(el => el.textContent = idioma === "es" ? "Ver" : "View");
+                document.querySelectorAll(".btn-editar").forEach(el => el.textContent = idioma === "es" ? "Editar" : "Edit");
+                document.querySelectorAll(".btn-eliminar").forEach(el => el.textContent = idioma === "es" ? "Eliminar" : "Delete");
+                document.querySelectorAll(".btn-agregar").forEach(el => el.textContent = idioma === "es" ? "Agregar" : "Add");
+
+                document.querySelectorAll(".txt-sin-stock").forEach(el => el.textContent = idioma === "es" ? "Sin stock" : "Out of stock");
+                document.querySelectorAll(".txt-stock").forEach(el => el.textContent = idioma === "es" ? "Stock:" : "Stock:");
+                document.querySelectorAll(".txt-si").forEach(el => el.textContent = idioma === "es" ? "Sí" : "Yes");
+                document.querySelectorAll(".txt-no").forEach(el => el.textContent = idioma === "es" ? "No" : "No");
+
+                document.querySelectorAll(".opt-seleccione").forEach(el => el.textContent = t.optSeleccione);
+                document.querySelectorAll(".opt-tarjeta").forEach(el => el.textContent = t.optTarjeta);
+                document.querySelectorAll(".opt-efectivo").forEach(el => el.textContent = t.optEfectivo);
+
+                const tituloProductoForm = document.getElementById("tituloProductoForm");
+                if (tituloProductoForm) {
+                    const esNuevo = tituloProductoForm.getAttribute("data-nuevo") === "true";
+                    tituloProductoForm.textContent = esNuevo ? t.tituloProductoFormNuevo : t.tituloProductoFormEditar;
+                }
+            }
+
+            function cambiarIdioma() {
+                idioma = idioma === "es" ? "en" : "es";
+                localStorage.setItem("idioma", idioma);
+                aplicarIdioma();
+            }
+
+            document.addEventListener("DOMContentLoaded", aplicarIdioma);
+        </script>
 
     </body>
 </html>

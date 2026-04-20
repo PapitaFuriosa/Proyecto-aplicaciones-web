@@ -11,8 +11,8 @@
         <section>
 
             <div class="mb-4">
-                <h1 class="page-title">Panel Administrativo</h1>
-                <p class="page-subtitle">
+                <h1 class="page-title" id="tituloAdmin">Panel Administrativo</h1>
+                <p class="page-subtitle" id="subtituloAdmin">
                     Gestioná el catálogo de repuestos.
                 </p>
             </div>
@@ -20,13 +20,15 @@
             <div class="admin-grid-single">
                 <div class="admin-card admin-card-catalogo">
                     <div class="admin-card-icon">📦</div>
-                    <h4>Catálogo de productos</h4>
-                    <p>
+
+                    <h4 id="tituloCatalogoAdmin">Catálogo de productos</h4>
+
+                    <p id="descCatalogoAdmin">
                         Agregá, editá y desactivá productos del catálogo principal.
                     </p>
 
                     <div class="admin-actions">
-                        <a class="btn btn-brand" th:href="@{/admin/productos}">
+                        <a class="btn btn-brand" th:href="@{/admin/productos}" id="btnModificarCatalogo">
                             Modificar catálogo
                         </a>
                     </div>

@@ -2,68 +2,61 @@
 <html xmlns:th="http://www.thymeleaf.org"
       lang="es">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Login</title>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
 
-        <link rel="icon" type="image/jpeg" th:href="@{/img/repuestos/logo.jpg}">
+    <link rel="icon" type="image/jpeg" th:href="@{/img/repuestos/logo.jpg}">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
 
-        <link rel="stylesheet" th:href="@{/css/estilos.css}">
-    </head>
+<body class="login-page">
 
-    <body class="login-page">
+<div class="login-wrapper">
+    <div class="login-card">
 
-        <div class="login-wrapper">
-            <div class="login-card">
-
-                <div class="login-logo">
-                    <img th:src="@{/img/repuestos/logo.jpg}" alt="Logo">
-                </div>
-
-                <h2>Iniciar sesión</h2>
-                <p class="login-subtitle">
-                    Accedé a tu cuenta para entrar a RepuestosCloud.
-                </p>
-
-                <div class="mensaje-error" th:if="${param.error}">
-                    Correo o contraseña incorrectos
-                </div>
-
-                <div class="mensaje-logout" th:if="${param.logout}">
-                    Sesión cerrada correctamente
-                </div>
-
-                <form th:action="@{/login}" method="post">
-
-                    <div class="login-group">
-                        <label>Correo</label>
-                        <input type="email"
-                               name="correo"
-                               placeholder="Ingresá tu correo"
-                               required>
-                    </div>
-
-                    <div class="login-group">
-                        <label>Contraseña</label>
-                        <input type="password"
-                               name="password"
-                               placeholder="Ingresá tu contraseña"
-                               required>
-                    </div>
-
-                    <button type="submit" class="btn-login">
-                        Entrar
-                    </button>
-
-                </form>
-
-                <div class="register-link">
-                    <p>¿No tienes cuenta?</p>
-                    <a th:href="@{/registro}">Registrarse</a>
-                </div>
-
-            </div>
+        <div class="login-logo">
+            <img th:src="@{/img/repuestos/logo.jpg}" alt="Logo">
         </div>
 
-    </body>
+        <h2 id="loginTitulo">Iniciar sesión</h2>
+        <p class="login-subtitle" id="loginSub">
+            Accedé a tu cuenta para entrar a RepuestosCloud.
+        </p>
+
+        <div class="mensaje-error" th:if="${param.error}" id="loginError">
+            Correo o contraseña incorrectos
+        </div>
+
+        <div class="mensaje-logout" th:if="${param.logout}" id="loginLogout">
+            Sesión cerrada correctamente
+        </div>
+
+        <form th:action="@{/login}" method="post">
+
+            <div class="login-group">
+                <label id="loginCorreo">Correo</label>
+                <input type="email" name="correo" placeholder="Ingresá tu correo" required>
+            </div>
+
+            <div class="login-group">
+                <label id="loginPassword">Contraseña</label>
+                <input type="password" name="password" placeholder="Ingresá tu contraseña" required>
+            </div>
+
+            <button type="submit" class="btn-login" id="loginBtn">
+                Entrar
+            </button>
+
+        </form>
+
+        <div class="register-link">
+            <p id="loginNoCuenta">¿No tienes cuenta?</p>
+            <a th:href="@{/registro}" id="loginRegistro">Registrarse</a>
+        </div>
+
+    </div>
+</div>
+
+</body>
 </html>
