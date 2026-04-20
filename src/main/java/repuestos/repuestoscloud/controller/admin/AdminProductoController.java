@@ -5,7 +5,6 @@ import repuestos.repuestoscloud.repository.ProductoRepository;
 import repuestos.repuestoscloud.repository.TipoRepuestoRepository;
 import repuestos.repuestoscloud.entity.Producto;
 import repuestos.repuestoscloud.service.FirebaseStorageService;
-import repuestos.repuestoscloud.util.CurrentUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

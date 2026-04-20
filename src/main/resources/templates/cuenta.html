@@ -1,5 +1,13 @@
-<div th:replace="~{layout :: layout('Mi cuenta', ~{::section})}"></div>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
 
+<head>
+    <title>Mi cuenta</title>
+</head>
+
+<body>
 <section>
     <div class="mb-4 text-center">
         <h1 class="page-title">Configuración de la cuenta</h1>
@@ -46,9 +54,8 @@
                             <label class="form-label fw-bold">Método de pago</label>
                             <select class="form-select" th:field="*{metodoPagoPreferido}">
                                 <option value="">Seleccione</option>
-                                <option value="Tarjeta">Tarjeta</option>
-                                <option value="Débito">Débito</option>
-                                <option value="Crédito">Crédito</option>
+                                <option value="Tarjeta">Tarjeta Crédito/Débito</option>
+                              
                                 <option value="Efectivo">Efectivo</option>
                             </select>
                         </div>
@@ -64,3 +71,5 @@
         </div>
     </div>
 </section>
+</body>
+</html>

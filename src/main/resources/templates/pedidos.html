@@ -1,34 +1,44 @@
-<div th:replace="~{layout :: layout('Pedidos', ~{::section})}"></div>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
 
-    <section>
-        <div class="mb-4">
-            <h1 class="page-title">Historial de pedidos</h1>
-            <p class="page-subtitle">Tus compras confirmadas.</p>
-        </div>
+    <head>
+        <title>Pedidos</title>
+    </head>
 
-        <div class="table-darkish p-3" th:if="${#lists.isEmpty(pedidos)}">
-            <p class="m-0">Aún no tenés pedidos.</p>
-            <a class="btn btn-soft mt-3" th:href="@{/productos}">Ir al catálogo</a>
-        </div>
+    <body>
+        <section>
+            <div class="mb-4">
+                <h1 class="page-title">Historial de pedidos</h1>
+                <p class="page-subtitle">Tus compras confirmadas.</p>
+            </div>
 
-        <div class="table-darkish" th:if="${!#lists.isEmpty(pedidos)}">
-            <table class="table table-borderless mb-0">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Fecha</th>
-                        <th>Estado</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="p : ${pedidos}">
-                        <td th:text="${p.idPedido}"></td>
-                        <td th:text="${p.fecha}"></td>
-                        <td th:text="${p.estado}"></td>
-                        <td>₡<span th:text="${p.total}"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+            <div class="table-darkish p-3" th:if="${#lists.isEmpty(pedidos)}">
+                <p class="m-0">Aún no tenés pedidos.</p>
+                <a class="btn btn-soft mt-3" th:href="@{/productos}">Ir al catálogo</a>
+            </div>
+
+            <div class="table-darkish" th:if="${!#lists.isEmpty(pedidos)}">
+                <table class="table table-borderless mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="p : ${pedidos}">
+                            <td th:text="${p.idPedido}"></td>
+                            <td th:text="${p.fecha}"></td>
+                            <td th:text="${p.estado}"></td>
+                            <td>₡<span th:text="${p.total}"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </body>
+</html>

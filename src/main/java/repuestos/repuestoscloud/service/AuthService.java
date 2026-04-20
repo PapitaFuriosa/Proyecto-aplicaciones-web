@@ -39,7 +39,7 @@ public class AuthService implements UserDetailsService {
         for (UsuarioRol link : rolesLink) {
             Rol rol = rolRepo.findById(link.getIdRol()).orElse(null);
             if (rol != null) {
-                auths.add(new SimpleGrantedAuthority("ROLE_" + rol.getNombre()));
+                auths.add(new SimpleGrantedAuthority(rol.getNombre()));
             }
         }
 

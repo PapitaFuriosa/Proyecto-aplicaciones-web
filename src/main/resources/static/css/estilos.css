@@ -7,7 +7,14 @@
     justify-content: center;
     align-items: center;
 }
-
+.login-logo img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 15px auto;
+}
 .login-wrapper {
     width: 100%;
     display: flex;
@@ -246,6 +253,19 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, .06);
 }
 
+.navbar-brand {
+    color: #ffffff !important;
+    font-weight: 800;
+}
+
+.navbar-brand:hover {
+    color: #cbd5f5 !important;
+}
+
+.navbar .navbar-brand {
+    color: #ffffff !important;
+}
+
 .page-wrap {
     min-height: calc(100vh - 70px);
     padding: 30px 0;
@@ -360,4 +380,60 @@ body {
 
 .form-control::placeholder {
     color: rgba(229, 231, 235, .6);
+}
+
+.table-darkish table {
+    background: transparent !important;
+}
+
+.table-darkish thead th {
+    background: #13233f !important;
+    color: #e5e7eb !important;
+}
+
+.table-darkish tbody td {
+    background: rgba(8, 20, 43, 0.95) !important;
+    color: #ffffff !important;
+}
+
+.table-darkish tbody tr:hover td {
+    background: #10284d !important;
+}
+
+.admin-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.3s;
+    height: 100%;
+}
+
+.admin-card:hover {
+    transform: translateY(-5px);
+    border-color: #22c55e;
+}
+
+.admin-card h4 {
+    color: #e5e7eb;
+    margin-bottom: 10px;
+}
+
+.admin-card p {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.brand-logo {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.admin-logo-title {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
 }

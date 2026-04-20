@@ -109,10 +109,10 @@ public class AuthController {
 
         u = usuarioRepo.save(u);
 
-        Rol cliente = rolRepo.findByNombre("CLIENTE").orElseThrow();
+        Rol cliente = rolRepo.findByNombre("ROLE_CLIENTE").orElseThrow();
 
         UsuarioRol ur = new UsuarioRol();
-        ur.setIdUsuario(u.getIdUsuario().longValue());
+        ur.setIdUsuario(u.getIdUsuario());
         ur.setIdRol(cliente.getIdRol());
         usuarioRolRepo.save(ur);
 

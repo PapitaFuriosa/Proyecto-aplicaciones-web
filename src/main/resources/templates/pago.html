@@ -1,60 +1,168 @@
-<div th:replace="~{layout :: layout('Pago', ~{::section})}"></div>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
 
-    <section class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="mb-4">
-                <h1 class="page-title">Realizar pedido</h1>
-                <p class="page-subtitle">Selecciona tu método de pago para finalizar la compra.</p>
-            </div>
+    <head>
+        <title>Pago</title>
+    </head>
 
-            <div class="table-darkish p-4">
-                <h4 class="mb-4">Seleccione su método de pago</h4>
-
+    <body>
+        <section class="row justify-content-center">
+            <div class="col-lg-8">
                 <div class="mb-4">
-                    <button type="button" class="btn btn-soft">
-                        Tarjeta guardada: ****-****-1111
-                    </button>
+                    <h1 class="page-title">Realizar pedido</h1>
+                    <p class="page-subtitle">Selecciona tu método de pago para finalizar la compra.</p>
                 </div>
 
-                <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+                <div class="table-darkish p-4">
+                    <h4 class="mb-4">Seleccione su método de pago</h4>
 
-                <h5 class="mb-3">Agregar otro:</h5>
+                    <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
 
-                <form th:action="@{/pago/finalizar}" method="post" th:object="${form}">
-                    <div class="row g-3">
-                        <div class="col-md-8">
-                            <input class="form-control"
-                                   type="text"
-                                   placeholder="Número de la tarjeta"
-                                   th:field="*{numeroTarjeta}">
+                    <form id="formPago" th:action="@{/pago/finalizar}" method="post" th:object="${form}">
+
+                        <div class="mb-4">
+                            <label class="me-3">
+                                <input type="radio"
+                                       id="metodoTarjeta"
+                                       name="metodoPago"
+                                       value="tarjeta"
+                                       checked>
+                                Tarjeta Crédito/Débito
+                            </label>
+
+                            <label>
+                                <input type="radio"
+                                       id="metodoEfectivo"
+                                       name="metodoPago"
+                                       value="efectivo">
+                                Efectivo
+                            </label>
                         </div>
 
-                        <div class="col-md-4">
-                            <input class="form-control"
-                                   type="text"
-                                   placeholder="Código de seguridad"
-                                   th:field="*{codigoSeguridad}">
+                        <div id="datosTarjeta">
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <input class="form-control"
+                                           type="text"
+                                           id="numeroTarjeta"
+                                           placeholder="Número de la tarjeta"
+                                           maxlength="16"
+                                           th:field="*{numeroTarjeta}">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <input class="form-control"
+                                           type="text"
+                                           placeholder="Código de seguridad"
+                                           th:field="*{codigoSeguridad}">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <input class="form-control"
+                                           type="text"
+                                           id="fechaVencimiento"
+                                           placeholder="dd/MM/yyyy"
+                                           maxlength="10"
+                                           th:field="*{fechaVencimiento}">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <input class="form-control"
+                                           type="text"
+                                           placeholder="Nombre del propietario"
+                                           th:field="*{nombrePropietario}">
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <input class="form-control"
-                                   type="text"
-                                   placeholder="Fecha de vencimiento"
-                                   th:field="*{fechaVencimiento}">
+                        <div class="mt-4 d-flex justify-content-end">
+                            <button class="btn btn-brand px-5" type="submit">Finalizar</button>
                         </div>
-
-                        <div class="col-md-6">
-                            <input class="form-control"
-                                   type="text"
-                                   placeholder="Nombre del propietario"
-                                   th:field="*{nombrePropietario}">
-                        </div>
-                    </div>
-
-                    <div class="mt-4 d-flex justify-content-end">
-                        <button class="btn btn-brand px-5" type="submit">Finalizar</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
-    </section>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const form = document.getElementById("formPago");
+                    const numeroTarjeta = document.getElementById("numeroTarjeta");
+                    const fechaVencimiento = document.getElementById("fechaVencimiento");
+                    const datosTarjeta = document.getElementById("datosTarjeta");
+                    const metodoTarjeta = document.getElementById("metodoTarjeta");
+                    const metodoEfectivo = document.getElementById("metodoEfectivo");
+
+                    function actualizarVistaPago() {
+                        if (metodoEfectivo.checked) {
+                            datosTarjeta.style.display = "none";
+                        } else {
+                            datosTarjeta.style.display = "block";
+                        }
+                    }
+
+                    metodoTarjeta.addEventListener("change", actualizarVistaPago);
+                    metodoEfectivo.addEventListener("change", actualizarVistaPago);
+
+                    actualizarVistaPago();
+
+                    numeroTarjeta.addEventListener("input", function () {
+                        this.value = this.value.replace(/\D/g, "").slice(0, 16);
+                    });
+
+                    fechaVencimiento.addEventListener("input", function () {
+                        let valor = this.value.replace(/\D/g, "").slice(0, 8);
+
+                        if (valor.length > 2 && valor.length <= 4) {
+                            valor = valor.slice(0, 2) + "/" + valor.slice(2);
+                        } else if (valor.length > 4) {
+                            valor = valor.slice(0, 2) + "/" + valor.slice(2, 4) + "/" + valor.slice(4);
+                        }
+
+                        this.value = valor;
+                    });
+
+                    form.addEventListener("submit", function (e) {
+                        if (metodoEfectivo.checked) {
+                            return;
+                        }
+
+                        const tarjeta = numeroTarjeta.value.trim();
+                        const fecha = fechaVencimiento.value.trim();
+
+                        if (!/^\d{16}$/.test(tarjeta)) {
+                            e.preventDefault();
+                            alert("La tarjeta debe tener exactamente 16 números.");
+                            numeroTarjeta.focus();
+                            return;
+                        }
+
+                        if (!/^\d{2}\/\d{2}\/\d{4}$/.test(fecha)) {
+                            e.preventDefault();
+                            alert("La fecha debe tener el formato dd/MM/yyyy.");
+                            fechaVencimiento.focus();
+                            return;
+                        }
+
+                        const partes = fecha.split("/");
+                        const mes = parseInt(partes[1]);
+                        const anio = parseInt(partes[2]);
+
+                        if (mes < 1 || mes > 12) {
+                            e.preventDefault();
+                            alert("El mes no es válido.");
+                            fechaVencimiento.focus();
+                            return;
+                        }
+
+                        if (anio < 2026) {
+                            e.preventDefault();
+                            alert("El año no puede ser menor a 2026.");
+                            fechaVencimiento.focus();
+                        }
+                    });
+                });
+            </script>
+        </section>
+    </body>
+</html>

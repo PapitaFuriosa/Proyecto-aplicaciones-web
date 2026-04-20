@@ -4,7 +4,7 @@
       th:replace="~{layout :: layout(~{::title}, ~{::section})}">
 
     <head>
-        <title>Catálogo</title>
+        <title>Productos</title>
     </head>
 
     <body>
@@ -58,7 +58,7 @@
                     <div class="product-card">
 
                         <img class="product-img"
-                             th:src="${p.rutaImagen} ?: 'https://via.placeholder.com/600x400?text=Producto'"
+                             th:src="${p.rutaImagen != null and !#strings.isEmpty(p.rutaImagen)} ? ${p.rutaImagen} : 'https://via.placeholder.com/600x400?text=Producto'"
                              alt="Producto">
 
                         <div class="product-body">

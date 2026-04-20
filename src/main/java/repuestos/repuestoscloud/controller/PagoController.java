@@ -3,12 +3,12 @@ package repuestos.repuestoscloud.controller;
 import repuestos.repuestoscloud.entity.Usuario;
 import repuestos.repuestoscloud.service.PedidoService;
 import repuestos.repuestoscloud.util.CurrentUser;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PagoController {
@@ -23,16 +23,9 @@ public class PagoController {
 
     public static class PagoForm {
 
-        @NotBlank
         private String numeroTarjeta;
-
-        @NotBlank
         private String codigoSeguridad;
-
-        @NotBlank
         private String fechaVencimiento;
-
-        @NotBlank
         private String nombrePropietario;
 
         public String getNumeroTarjeta() {
@@ -75,16 +68,20 @@ public class PagoController {
     }
 
     @PostMapping("/pago/finalizar")
-    public String finalizarPago(@ModelAttribute("form") PagoForm form, Model model) {
+    public String finalizarPago(@ModelAttribute("form") PagoForm form,
+                                @RequestParam("metodoPago") String metodoPago,
+                                Model model) {
 
-        if (form.getNumeroTarjeta() == null || form.getNumeroTarjeta().isBlank()
-                || form.getCodigoSeguridad() == null || form.getCodigoSeguridad().isBlank()
-                || form.getFechaVencimiento() == null || form.getFechaVencimiento().isBlank()
-                || form.getNombrePropietario() == null || form.getNombrePropietario().isBlank()) {
+        if ("tarjeta".equals(metodoPago)) {
+            if (form.getNumeroTarjeta() == null || !form.getNumeroTarjeta().matches("\\d{16}")
+                    || form.getCodigoSeguridad() == null || form.getCodigoSeguridad().isBlank()
+                    || form.getFechaVencimiento() == null || form.getFechaVencimiento().isBlank()
+                    || form.getNombrePropietario() == null || form.getNombrePropietario().isBlank()) {
 
-            model.addAttribute("error", "Completa todos los campos del método de pago.");
-            model.addAttribute("form", form);
-            return "pago";
+                model.addAttribute("error", "Completa correctamente los datos de la tarjeta.");
+                model.addAttribute("form", form);
+                return "pago";
+            }
         }
 
         Usuario u = currentUser.get();

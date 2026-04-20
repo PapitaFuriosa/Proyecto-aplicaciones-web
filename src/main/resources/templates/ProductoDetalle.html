@@ -1,5 +1,13 @@
-<div th:replace="~{layout :: layout('Detalle del producto', ~{::section})}"></div>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
 
+<head>
+    <title>Detalle del producto</title>
+</head>
+
+<body>
 <section>
     <div class="mb-4">
         <h1 class="page-title">Detalle del producto</h1>
@@ -13,7 +21,7 @@
                  style="min-height: 420px; display:flex; align-items:center; justify-content:center; border-radius:18px; transition:all .25s ease;">
 
                 <img id="mainProductImage"
-                     th:src="${p.rutaImagen != null ? p.rutaImagen : 'https://via.placeholder.com/420x320/F0F0F0/111111?text=Producto'}"
+                     th:src="${p.rutaImagen != null and !#strings.isEmpty(p.rutaImagen)} ? ${p.rutaImagen} : @{/img/repuestos/logo.jpg}"
                      alt="Producto"
                      style="max-width:100%; max-height:320px; object-fit:contain; border-radius:14px;">
 
@@ -39,8 +47,8 @@
                                 class="color-swatch"
                                 th:style="'width:26px;height:26px;border-radius:50%;border:2px solid #444;background:' + ${c.codigoHex} + ';'"
                                 th:attr="data-nombre=${c.nombre},
-                                data-hex=${c.codigoHex},
-                                data-img=${c.imagenUrl}"
+                                         data-hex=${c.codigoHex},
+                                         data-img=${c.imagenUrl}"
                                 onclick="seleccionarColor(this)">
                         </button>
 
@@ -84,5 +92,24 @@
             </div>
         </div>
     </div>
-</section>
 
+    <script>
+        function seleccionarColor(btn) {
+            const nombre = btn.getAttribute("data-nombre");
+            const img = btn.getAttribute("data-img");
+
+            const texto = document.getElementById("selectedColorText");
+            const imagen = document.getElementById("mainProductImage");
+
+            if (texto && nombre) {
+                texto.textContent = nombre;
+            }
+
+            if (imagen && img && img.trim() !== "") {
+                imagen.src = img;
+            }
+        }
+    </script>
+</section>
+</body>
+</html>

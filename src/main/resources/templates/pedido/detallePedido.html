@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>Detalle del pedido</title>
+
+        <link rel="icon" type="image/jpeg" th:href="@{/img/repuestos/logo.jpg}">
+
         <link rel="stylesheet" th:href="@{/css/estilos.css}">
     </head>
 
@@ -42,9 +45,7 @@
 
                     <tbody>
                         <tr th:each="item : ${items}">
-
                             <td th:text="${item.idProducto}"></td>
-
                             <td th:text="${item.cantidad}"></td>
 
                             <td>
@@ -54,7 +55,6 @@
                             <td>
                                 ₡<span th:text="${#numbers.formatDecimal(item.precioUnitario * item.cantidad,0,'COMMA',0,'POINT')}"></span>
                             </td>
-
                         </tr>
                     </tbody>
 

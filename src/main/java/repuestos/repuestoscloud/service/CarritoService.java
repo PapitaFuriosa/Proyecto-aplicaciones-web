@@ -54,8 +54,11 @@ public class CarritoService {
         Optional<CarritoItem> existing = itemRepo.findByIdCarritoAndIdProducto(c.getIdCarrito(), idProducto);
         if (existing.isPresent()) {
             CarritoItem it = existing.get();
-            it.setCantidad(it.getCantidad() + 1);
-            itemRepo.save(it);
+
+            if (it.getCantidad() < p.getStock()) {
+                it.setCantidad(it.getCantidad() + 1);
+                itemRepo.save(it);
+            }
         } else {
             CarritoItem it = new CarritoItem();
             it.setIdCarrito(c.getIdCarrito());
@@ -72,6 +75,12 @@ public class CarritoService {
         if (cantidad <= 0) {
             itemRepo.deleteById(new CarritoItemId(c.getIdCarrito(), idProducto));
             return;
+        }
+
+        Producto p = productoRepo.findById(idProducto).orElseThrow();
+
+        if (cantidad > p.getStock()) {
+            cantidad = p.getStock();
         }
 
         CarritoItem it = itemRepo.findByIdCarritoAndIdProducto(c.getIdCarrito(), idProducto).orElseThrow();
@@ -91,9 +100,9 @@ public class CarritoService {
             BigDecimal precio,
             Integer cantidad,
             BigDecimal subtotal,
-            String img
-            ) {
-
+            String img,
+            Integer stock
+    ) {
     }
 
     public Map<String, Object> verCarrito(Usuario u) {
@@ -125,7 +134,8 @@ public class CarritoService {
                     p.getPrecio(),
                     it.getCantidad(),
                     sub,
-                    p.getRutaImagen()
+                    p.getRutaImagen(),
+                    p.getStock()
             ));
         }
 
